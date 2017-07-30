@@ -7,21 +7,21 @@ Vagrant.configure("2") do |config|
   # host 環境
   # この環境からAnsibleコマンドを実行する
   config.vm.define "host" do |node|
-    node.vm.box = "centos7.1"
+    node.vm.box = "centos6.7"
     node.vm.hostname = "host"
     node.vm.network :private_network, ip: "192.168.43.51"
   end
 
   # web 環境
   config.vm.define "web" do |node|
-  node.vm.box = "centos7.1"
+  node.vm.box = "centos6.7"
     node.vm.hostname = "web"
     node.vm.network :private_network, ip: "192.168.43.52"
   end
 
-  # db 環境
+   # db 環境
   config.vm.define "db" do |node|
-  node.vm.box = "centos7.1"
+  node.vm.box = "centos6.7"
     node.vm.hostname = "db"
     node.vm.network :private_network, ip: "192.168.43.53"
   end
@@ -29,5 +29,5 @@ Vagrant.configure("2") do |config|
   # 共有フォルダ設定 mac <--> host 間で共有フォルダを指定する
   # config.vm.synced_folder {host_path}, {guest_path}, option...
   config.vm.synced_folder "./shared", "/home/vagrant/shared", owner: "vagrant", group: "vagrant"
-  
+
 end

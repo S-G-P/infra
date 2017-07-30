@@ -1,4 +1,4 @@
-# infra 
+# infra
 
 RailsアプリケーションをEC2インスタンス上にデプロイするための
 
@@ -10,10 +10,10 @@ Vagrantfile, AnsibleのPlaybookなどを管理するためのリポジトリで�
 - host
   - ansible (nginxの設定ファイル, mysqlの設定ファイル, etc...)
     
-- web 
+- web
   - nginx
   - ruby
-  - git 
+  - git
   - rails, unicorn  (unicorn は gem に書くのでアプリケーションサイドで管理する。（ansibleには書かない）)
 
 - db
@@ -26,4 +26,11 @@ Vagrantfile, AnsibleのPlaybookなどを管理するためのリポジトリで�
 
 [Ansible入門 ③ Ansibleのplaybookを書いてwebサーバにnginxを入れるところまで](http://qiita.com/G-awa/items/2cea5db8b4309f94cff4)
 
+# vagrant の設定
 
+以下のbox imageをダウンロードしておく
+
+
+```
+$ vagrant box add centos6.7 https://github.com/CommanderK5/packer-centos-template/releases/download/0.6.7/vagrant-centos-6.7.box
+```

@@ -1,0 +1,9 @@
+#### emacs
+- name: install emacs
+  yum: name=emacs state=present
+
+- name: mkdir .emacs.d
+  file: path=/home/vagrant/.emacs.d state=directory owner=root group=root mode=0755
+
+- name: copy init.el
+  template: src=templates/.emacs.d/init.el dest=/home/vagrant/.emacs.d/ mode=0644

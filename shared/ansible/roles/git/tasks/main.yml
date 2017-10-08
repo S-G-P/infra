@@ -1,26 +1,3 @@
-#### emacs
-- name: install emacs
-  yum: name=emacs state=present
-
-- name: mkdir .emacs.d
-  file: path=/home/vagrant/.emacs.d state=directory owner=root group=root mode=0755
-
-- name: copy init.el
-  template: src=templates/.emacs.d/init.el dest=/home/vagrant/.emacs.d/ mode=0644
-
-#### nginx
-- name: install epel repository
-  yum: name=http://ftp.riken.jp/Linux/fedora/epel/6/i386/epel-release-6-8.noarch.rpm state=present
-
-- name: install nginx
-  yum: name=nginx state=present
-
-- name: nginx start
-  service: name=nginx state=started enabled=yes
-
-- name: copy index.html
-  template: src=templates/nginx/index.html.j2 dest=/usr/share/nginx/html/index.html mode=0644
-
 #### git
 - name: original git exist check
   stat: path={{ bin_dir }}/git
@@ -78,20 +55,3 @@
       prefix: "{{ prefix_dir }}"
   when: (exist_git.stat.exists == false) or
         (exist_git.stat.exists == true and org_version.stdout != "git version {{ git_version }}")
-
-
-#### jenkins
-- name: ensure open JDK 1.8 is at the latest version
-  yum: name=java-1.8.0-openjdk state=latest
-
-- name: get the Jenkins repository
-  get_url: url=http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo dest=/etc/yum.repos.d/jenkins.repo
-
-- name: add the Jenkins repository
-  rpm_key: key=http://pkg.jenkins-ci.org/redhat-stable/jenkins-ci.org.key
-
-- name: ensure jenkins is at the latest version
-  yum: name=jenkins state=latest
-
-- name: ensure jenkins is running and enabled
-  service: name=jenkins state=started enabled=yes

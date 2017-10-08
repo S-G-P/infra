@@ -4,4 +4,7 @@
 - hosts: web
   sudo: True
   roles:
-    - web
+    - git
+    - jenkins
+    - emacs
+    - nginx

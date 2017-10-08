@@ -1,3 +1,4 @@
+#### nginx
 - name: install epel repository
   yum: name=http://ftp.riken.jp/Linux/fedora/epel/6/i386/epel-release-6-8.noarch.rpm state=present
 
@@ -9,3 +10,61 @@
 
 - name: copy index.html
   template: src=templates/nginx/index.html.j2 dest=/usr/share/nginx/html/index.html mode=0644
+
+#### git
+- name: original git exist check
+  stat: path={{ bin_dir }}/git
+  register: exist_git
+
+- debug: msg="git not installed."
+  when: exist_git.stat.exists == false
+
+- name: original git version check
+  command: "{{ bin_dir }}/git --version warn=false"
+  register: org_version
+  changed_when: false
+  when: exist_git.stat.exists == true
+
+- name: install dependences
+  yum: name={{ item }}
+  with_items:
+    - curl-devel
+    - expat-devel
+    - gettext-devel
+    - openssl-devel
+    - zlib-devel
+    - gcc
+    - perl-ExtUtils-MakeMaker
+  when: (exist_git.stat.exists == false) or
+        (exist_git.stat.exists == true and org_version.stdout != "git version {{ git_version }}")
+
+- name: make download dir
+  file: path={{ src_dir }} state=directory owner=root group=root mode=755
+  when: (exist_git.stat.exists == false) or
+        (exist_git.stat.exists == true and org_version.stdout != "git version {{ git_version }}")
+
+- name: download git version {{ git_version }}
+  unarchive:
+    src: https://www.kernel.org/pub/software/scm/git/git-{{ git_version }}.tar.gz
+    dest: "{{ src_dir }}"
+    copy: no
+  when: (exist_git.stat.exists == false) or
+        (exist_git.stat.exists == true and org_version.stdout != "git version {{ git_version }}")
+
+- name: make all
+  make:
+    chdir: "{{ src_dir }}/git-{{ git_version }}"
+    target: all
+    params:
+      prefix: "{{ prefix_dir }}"
+  when: (exist_git.stat.exists == false) or
+        (exist_git.stat.exists == true and org_version.stdout != "git version {{ git_version }}")
+
+- name: make install
+  make:
+    chdir: "{{ src_dir }}/git-{{ git_version }}"
+    target: install
+    params:
+      prefix: "{{ prefix_dir }}"
+  when: (exist_git.stat.exists == false) or
+        (exist_git.stat.exists == true and org_version.stdout != "git version {{ git_version }}")

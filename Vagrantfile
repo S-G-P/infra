@@ -16,8 +16,6 @@ Vagrant.configure("2") do |config|
   config.vm.define "web" do |node|
   node.vm.box = "centos6.7"
     node.vm.hostname = "web"
-    node.vm.network :forwarded_port, guest:22, host:2001, id:"ssh"
-    node.vm.network :forwarded_port, guest: 8080, host: 8080, id: "http"
     node.vm.network :private_network, ip: "192.168.43.52"
   end
 
@@ -31,8 +29,5 @@ Vagrant.configure("2") do |config|
   # 共有フォルダ設定 mac <--> host 間で共有フォルダを指定する
   # config.vm.synced_folder {host_path}, {guest_path}, option...
   config.vm.synced_folder "./shared", "/home/vagrant/shared", owner: "vagrant", group: "vagrant"
-
-  # ポートを開ける範囲を広げる
-  # config.vm.usable_port_range = (80..10050)
 
 end

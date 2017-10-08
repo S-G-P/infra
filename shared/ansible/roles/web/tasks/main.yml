@@ -6,3 +6,6 @@
 
 - name: nginx start
   service: name=nginx state=started enabled=yes
+
+- name: copy index.html
+  template: src=templates/nginx/index.html.j2 dest=/usr/share/nginx/html/index.html mode=0644

@@ -1,0 +1,9 @@
+### handlersについて
+# - handlerとはAnsibleがサポートしている条件つき処理の１つ
+#     tasksから通知されたときに実行される（`notify: restart nginx`のように）
+#     taskはtaskによってシステムの状態を変化させたとAnsibleが認識したときにのみ通知を送る
+# - handlerが実行されるのは、taskが全て実行された後であり、通知が複数送られていても、実行されるのは一度限り
+# - handlerは、通知が送られた順ではなく、必ずplay中に書かれた順序で実行される。
+
+- name: restart nginx
+  service: name=nginx state=restarted

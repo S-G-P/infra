@@ -1,0 +1,7 @@
+# master playbook
+# このplaybookはroles配下の各tasksをincludeするだけ
+---
+- hosts: web
+  sudo: True
+  roles:
+    - web

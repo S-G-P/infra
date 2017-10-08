@@ -1,0 +1,8 @@
+- name: install epel repository
+  yum: name=http://ftp.riken.jp/Linux/fedora/epel/6/i386/epel-release-6-8.noarch.rpm state=present
+
+- name: install nginx
+  yum: name=nginx state=present
+
+- name: nginx start
+  service: name=nginx state=started enabled=yes

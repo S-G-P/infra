@@ -1,0 +1,20 @@
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  become: False
+  tasks:
+    # - name: Facts subnet
+    #   ec2_vpc_subnet_facts:
+    #     region: us-east-1
+    #   register: _subnet_facts
+    # - debug: var=_subnet_facts verbosity=1
+    - name: "EC2"
+      ec2:
+        key_name: nginx-ec2
+        instance_type: t2.micro
+        image: ami-337ce84c
+        wait: yes
+        group: my-public-sg
+        count: 1
+        vpc_subnet_id:
+          assign_public_ip: yes

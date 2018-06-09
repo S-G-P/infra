@@ -1,0 +1,10 @@
+# Basic provisioning ec2 instance
+- ec2:
+    key_name: nginx-ec2
+    instance_type: t2.micro
+    image: ami-337ce84c
+    wait: yes
+    group: my-public-sg
+    count: 1
+    vpc_subnet_id:
+    assign_public_ip: yes
